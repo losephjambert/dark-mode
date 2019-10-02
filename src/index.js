@@ -11,9 +11,6 @@ import './styles.scss';
 
 const App = () => {
   const [coinData, setCoinData] = useState([]);
-  const [test, setTest] = useLocalStorage('test', [1, 2, 3]);
-
-  console.log(test);
 
   useEffect(() => {
     axios
@@ -23,6 +20,7 @@ const App = () => {
       .then(res => setCoinData(res.data))
       .catch(err => console.log(err));
   }, []);
+
   return (
     <div className='App'>
       <Navbar />
