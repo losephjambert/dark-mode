@@ -5,18 +5,10 @@ import axios from 'axios';
 import Charts from './components/Charts';
 import Navbar from './components/Navbar';
 
-import { useLocalStorage } from './hooks/useLocalStorage';
-
 import './styles.scss';
 
 const App = () => {
   const [coinData, setCoinData] = useState([]);
-  const [test, setTest] = useLocalStorage('array', [1, 2, 3]);
-
-  const addToTest = value => {
-    console.log(value);
-    setTest([...test, value]);
-  };
 
   useEffect(() => {
     axios
@@ -29,7 +21,6 @@ const App = () => {
 
   return (
     <div className='App'>
-      <button onClick={() => addToTest(test.length + 1)}>Add value to test</button>
       <Navbar />
       <Charts coinData={coinData} />
     </div>
