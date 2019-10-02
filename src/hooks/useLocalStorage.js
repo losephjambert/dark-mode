@@ -10,25 +10,21 @@
 */
 import { useState } from 'react';
 
-export const useLocalStorage = (key, value) => {
-  // this function needs to return two values:
-  // 1. the storedValue
-  // 2. a function to set the storedValue
-
+export const useLocalStorage = (key, initialValue) => {
   if (typeof key !== 'string')
     throw new Error(
       `expected typeof key: ${key} to be 'string', instead typeof ${key} is ${typeof key}. Please provide a 'string' as the first parameter for useLocalStorage()`
     );
 
   const [storedValue, setStoredValue] = useState(() => {
-    // if lS has key, return the key
-    // else set the key to lS
-    if (localStorage.getItem(key)) {
-      return JSON.parse(localStorage.getItem(key));
-    } else {
-      localStorage.setItem(key, JSON.stringify(value));
-    }
+    const item = localStorage.getItem(key);
+    return item ? JSON.parse(localStorage.getItem(key)) : initialValue;
   });
 
-  return [storedValue, setStoredValue];
+  const setValue = value => {
+    setStoredValue(value);
+    localStorage.setItem(key, JSON.stringify(value));
+  };
+
+  return [storedValue, setValue];
 };
