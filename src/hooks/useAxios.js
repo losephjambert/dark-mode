@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 export const useAxiosAsyncGet = (baseURL, url) => {
   const [data, setData] = useState(() => {
-    asyncAxios(baseURL, url);
+    url && asyncAxios(baseURL, url);
   });
   const [error, setError] = useState();
 
