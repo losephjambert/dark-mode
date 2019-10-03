@@ -21,6 +21,7 @@ export const useAxiosAsyncGet = (baseURL, url) => {
   }
 
   const setData = newURL => {
+    console.log('setData', newURL);
     asyncAxios(baseURL, newURL);
   };
 

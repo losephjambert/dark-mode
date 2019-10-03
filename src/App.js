@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import Charts from './components/Charts';
-import ExchangesContainer from './components/ExchangesContainer';
 
 import './styles.scss';
 
@@ -21,7 +20,6 @@ const App = () => {
   return (
     <div className='App'>
       <Charts coinData={coinData} />
-      <ExchangesContainer />
     </div>
   );
 };

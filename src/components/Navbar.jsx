@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDarkMode } from '../hooks/useDarkMode';
+import ExchangesContainer from './ExchangesContainer';
 
 const Navbar = () => {
   const [darkMode, setDarkMode] = useDarkMode(false);
@@ -9,6 +10,7 @@ const Navbar = () => {
   return (
     <nav className='navbar'>
       <h1>Crypto Tracker</h1>
+      <ExchangesContainer />
       <div className='dark-mode__toggle'>
         <div onClick={handleDarkMode} className={darkMode ? 'toggle toggled' : 'toggle'} />
       </div>
