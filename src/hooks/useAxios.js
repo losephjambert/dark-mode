@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 export const useAxiosAsyncGet = (baseURL, url) => {
   const [fetchedData, setFetchedData] = useState(() => {
+    console.log('useAxiosAsyncGet ', baseURL, url);
     url && asyncAxios(baseURL, url);
   });
   const [error, setError] = useState(() => !url && null);
