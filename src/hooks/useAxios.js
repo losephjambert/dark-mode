@@ -1,16 +1,51 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export const useAxios = baseURL => {
-  const [data, setData] = useState(async () => {
-    try {
-      const data = await axios.get(baseURL);
-      return data;
-    } catch (err) {
-      console.error(err);
-      return err;
-    }
+// export const useAxios = (baseURL, url) => {
+//   const [data, setData] = useState(() => {
+//     axios
+//       .get(`${baseURL}${url}`)
+//       .then(res => {
+//         return res.data;
+//       })
+//       .catch(err => {
+//         console.error(err);
+//       });
+//   });
+
+//   const updateData = async newURL => {
+//     setData(await axios.get(`${baseURL}${newURL}`));
+//   };
+
+//   const createData = data => {
+//     setData(data);
+//   };
+
+//   return [data, createData, updateData];
+// };
+
+export const useAxios = (baseURL, url) => {
+  const [fetchedData, setFetchedData] = useState(() => {
+    url && asyncAxios(baseURL, url);
   });
+  const [error, setError] = useState();
 
-  return [data];
+  async function asyncAxios(baseURL, url) {
+    console.log('async axios fn', baseURL, url);
+    await axios
+      .get(baseURL + url)
+      .then(res => {
+        setFetchedData(res.data);
+        setError(null);
+      })
+      .catch(err => {
+        setError(err);
+      });
+  }
+
+  const setData = newUrl => {
+    asyncAxios(baseURL, newUrl);
+  };
+
+  return [fetchedData, error, setData];
 };
