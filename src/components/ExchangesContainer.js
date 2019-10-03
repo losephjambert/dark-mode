@@ -1,15 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useAxiosAsyncGet } from '../hooks/useAxios';
 
-const baseURL = `https://api.coingecko.com/api/v3`; // https://api.coingecko.com/api/v3/exchanges/list
+const baseURL = `https://api.coingecko.com/api/v3`;
 
 const ExchangesContainer = () => {
-  const [exchangesList, setExchangesList, exchangesListError] = useAxiosAsyncGet(baseURL, `/exchanges/list`);
-  const [id, setId] = useState();
+  const [exchangesList, exchangesListError] = useAxiosAsyncGet(baseURL, `/exchanges/list`);
+  const [exchange, exchangeError, setExchange] = useAxiosAsyncGet(baseURL);
+  useEffect(() => {
+    if (exchangesListError) {
+      console.error(exchangesListError);
+    }
+    if (exchangeError) {
+      console.error(exchangeError);
+    }
+  });
+
+  const handleClick = id => {
+    setExchange(`/exchanges/${id}`);
+  };
 
   return (
     <div>
-      <ol>{exchangesList && exchangesList.map(exchange => <li key={exchange.id}>{exchange.name}</li>)}</ol>
+      <h2>Selected Exchange Country: {exchange && exchange.country}</h2>
+      <ol>
+        {exchangesList &&
+          exchangesList.map(exchange => (
+            <li onClick={() => handleClick(exchange.id)} key={exchange.id}>
+              {exchange.name}
+            </li>
+          ))}
+      </ol>
     </div>
   );
 };

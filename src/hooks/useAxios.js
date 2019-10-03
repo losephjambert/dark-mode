@@ -2,17 +2,16 @@ import axios from 'axios';
 import { useState } from 'react';
 
 export const useAxiosAsyncGet = (baseURL, url) => {
-  const [data, setData] = useState(() => {
+  const [fetchedData, setFetchedData] = useState(() => {
     url && asyncAxios(baseURL, url);
   });
-  const [error, setError] = useState();
+  const [error, setError] = useState(() => !url && null);
 
   async function asyncAxios(baseURL, url) {
-    console.log('async axios fn', baseURL, url);
     await axios
       .get(baseURL + url)
       .then(res => {
-        setData(res.data);
+        setFetchedData(res.data);
         setError(null);
       })
       .catch(err => {
@@ -20,5 +19,9 @@ export const useAxiosAsyncGet = (baseURL, url) => {
       });
   }
 
-  return [data, setData, error];
+  const setData = newURL => {
+    asyncAxios(baseURL, newURL);
+  };
+
+  return [fetchedData, error, setData];
 };
